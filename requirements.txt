@@ -1,4 +1,4 @@
-docopt
-requests
 pysocks
 texttable
+docopt
+requests

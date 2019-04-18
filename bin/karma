@@ -1,13 +1,29 @@
 #!/usr/bin/env python3
 
+import json
+import time
+import sys
+
+try:
+    from os import path
+    sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), '..')))
+    
+    from karma.version import __author__, __version__
+    from texttable import Texttable
+    from docopt import docopt
+    from karma import banner
+    from karma import core
+except ModuleNotFoundError as error:
+    print("{}> Error:{}".format(RED, error))
+    print(" - Verify the existence of the directory: karma/")
+    print(" - Please install the requirements:\n\t$ sudo -H pip3 install -r requirements.txt")
+    sys.exit(1)
+
 # colors
 RESET, GREEN, RED = '\033[0m', '\033[92m', '\033[91m'
 
-project = 'Karma'
-version = '15.03.19'
-author  = 'decoxviii'
+usage = """Karma {}
 
-usage = """Karma
 Usage:
     karma.py target <target> [-o FILENAME] [--proxy=<proxy>]
     karma.py search <target> (--password | --local-part | --domain) 
@@ -20,25 +36,7 @@ Options:
     --proxy=<proxy>     Set Tor proxy [default: localhost:9050].
     -h --help           Show this screen.
     --version           Show version.
-"""
-
-from os import path
-import json
-import time
-import sys
-
-try:
-    sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), '..')))
-    from texttable import Texttable
-    from docopt import docopt
-    from karma import banner
-    from karma import core
-except ModuleNotFoundError as error:
-    print("{}> Error:{}".format(RED, error))
-    print(" - Verify the existence of the directory: karma/")
-    print(" - Please install the requirements:\n\t$ sudo -H pip3 install -r requirements.txt")
-    sys.exit(1)
-
+""".format(__version__)
 
 def print_result_table(result, end):
     
@@ -81,16 +79,16 @@ def generate_json_file(result, filename):
 
 def main():
     
-    start = time.time()                             # get program start time
-    args  = docopt(usage, version=version)          # get arguments
-    pwndb = core.pwndb(args)                        # load functions
-    banner.print_banner(project, version, author)   # print sexy banner
+    start = time.time()                                     # get program start time
+    args  = docopt(usage, version=__version__)              # get arguments
+    pwndb = core.pwndb(args)                                # load functions
+    banner.print_banner('karma', __version__, __author__)   # print sexy banner
     
     print('{}> Searching{}'.format(GREEN, RESET))
 
-    result = pwndb.search_info()                    # start search and get results
-    end = time.time() - start                       # get time within the program
-    print_result_table(result, end)                      # print results
+    result = pwndb.search_info()        # start search and get results
+    end = time.time() - start           # get time within the program
+    print_result_table(result, end)     # print results
     
     if args['--output']:
         filename = args['FILENAME']             # get file name 
