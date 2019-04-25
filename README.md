@@ -24,7 +24,7 @@ sudo apt install tor python3 python3-pip
 
 Clone this repository, and:
 ```
-git clone https://github.com/decoxviii/karma.git; cd karma
+git clone https://github.com/decoxviii/karma.git ; cd karma
 sudo -H pip3 install -r requirements.txt
 python3 setup.py build
 sudo python3 setup.py install
