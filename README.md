@@ -9,11 +9,11 @@
 
 ---
 
-
 ##### API: pwndb2am4tzkvold (dot) onion
 
 Find leaked emails with your passwords.
 
+---
 
 #### Installation
 
@@ -21,6 +21,14 @@ Install dependencies (Debian/Ubuntu):
 ```
 sudo apt install tor python3 python3-pip
 ```
+
+Install with `pip3`:
+```
+sudo -H pip3 install git+https://github.com/decoxviii/karma.git
+karma --help
+```
+
+or
 
 Clone this repository, and:
 ```
@@ -30,6 +38,17 @@ python3 setup.py build
 sudo python3 setup.py install
 ```
 
+---
+
+#### Update
+
+To update this tool to the latest version, run:
+```
+sudo -H pip3 install git+https://github.com/decoxviii/karma.git --upgrade
+karma --version
+```
+
+---
 
 #### Usage
 
@@ -55,11 +74,13 @@ karma search 'hotmail.com' --domain -o test3
 karma target 'johndoe@unknown.com' -o test4
 ```
 
+---
 
 #### Disclaimer
 
 Usage this program for attacking targets without prior consent is illegal. It's the end user's responsibility to obey allapplicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program.
 
+---
 
 #### Thanks
 
