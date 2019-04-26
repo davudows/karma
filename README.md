@@ -28,7 +28,9 @@ sudo -H pip3 install git+https://github.com/decoxviii/karma.git
 karma --help
 ```
 
-or
+---
+
+#### Building from Source
 
 Clone this repository, and:
 ```
