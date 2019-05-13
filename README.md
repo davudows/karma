@@ -3,7 +3,7 @@
     <img alt="karma" src="https://i.imgur.com/C3zISlU.gif"/>
     <p align="center">
         <a href="https://github.com/decoxviii/karma/releases/latest"><img alt="Release" src="https://img.shields.io/github/tag/decoxviii/karma.svg?style=flat-square"></a>
-        <a href="https://github.com/evilsocket/ergo/blob/master/LICENSE.md"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+        <a href="https://github.com/decoxviii/karma/blob/master/LICENSE"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     </p>
 </p>
 
