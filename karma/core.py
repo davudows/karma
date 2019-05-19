@@ -43,10 +43,21 @@ class pwndb(object):
         """ Get requests """
         
         try:
-            req = self.session.post(self.domain, data=data)
-        except Exception as e:
+            req = self.session.post(self.domain, data=data, timeout=(15, None))
+        
+        except requests.exceptions.ConnectTimeout as e:
             print('{}Error: {}{}'.format(RED, e, RESET))
+            print("{}> The site: {} is down, try again later{}".format(GREEN, self.domain, RESET))
+            sys.exit(1)
+
+        except requests.exceptions.ConnectionError as e:
+            print('{}Error: {}{}'.format(RED, e, RESET))
+            print("{}> Please restart the tor service and try again. Run:\n".format(GREEN))
+            print("\t$ sudo service tor restart{}\n".format(RESET))
             sys.exit(2)
+
+        except Exception as e:
+            raise e
         
         return req.text
 
