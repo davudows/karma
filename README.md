@@ -3,7 +3,6 @@
     <img alt="karma" src="https://i.imgur.com/C3zISlU.gif"/>
     <p align="center">
         <a href="https://github.com/decoxviii/karma/releases/latest"><img alt="Release" src="https://img.shields.io/github/tag/decoxviii/karma.svg"></a>
-        <a href="https://github.com/decoxviii/karma/blob/master/LICENSE"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-green.svg"></a>
         <img alt="Status site" src="https://img.shields.io/badge/site-available-green.svg">
         <a href="https://twitter.com/decoxviii"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-@decoxviii-blue.svg"></a>
     </p>
