@@ -27,7 +27,7 @@ class pwndb(object):
         get_logger()
         self.site = "http://pwndb2am4tzkvold.onion/"
         self.args = args
-        self.data = {"luseropr": 0, "domainopr": 0, "submitform": "em"}
+        self.data = {"luseropr": 1, "domainopr": 1, "submitform": "em"}
 
         proxy = self.args["--proxy"]
         if "//" in proxy:
@@ -84,7 +84,7 @@ class pwndb(object):
     def email_request(self, target, num_targets=1, i=1):
         """ Request with email """
 
-        regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+        regex = r"(^[a-zA-Z0-9_.+%-]+@[a-zA-Z0-9-%]+\.[a-zA-Z0-9-%.]+$)"
         if re.match(regex, target):
             logger.info("{}/{} request email: {}".format(i, num_targets, target))
             self.data["luser"] = target.split("@")[0]
