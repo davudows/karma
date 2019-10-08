@@ -4,7 +4,7 @@
 </p>
 
 ![powered by](https://img.shields.io/badge/powered%20by-pwndb2am4tzkvold.onion-black.svg?style=flat&logo=github)
-[![demo](https://img.shields.io/badge/asciinema-demo-red.svg?style=flat)](#)
+[![demo](https://img.shields.io/badge/asciinema-demo-red.svg?style=flat)](https://asciinema.org/a/273130)
 ![data](https://img.shields.io/badge/data-1.4B-green.svg?style=flat)
 [![donate](https://img.shields.io/badge/paypal-donate-blue.svg?style=flat&logo=paypal)](https://paypal.me/decoxviii)
 
