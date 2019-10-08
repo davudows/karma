@@ -1,23 +1,48 @@
 #!/usr/bin/env python3
 
-from os import path
-
 import logging
 import json
 import time
 import sys
 
+from pathlib import Path
+
 try:
-    sys.path.insert(0, path.abspath(path.join(path.dirname(__file__), "..")))
-    from karma.version import __author__, __version__
-    from texttable import Texttable
-    from docopt import docopt
-    from karma import banner, core, formatter
+    path = str(Path(__file__).resolve().parents[1])
+    sys.path.insert(0, path)
+    
+    from karma import __version__
+    from karma import formatter
+    from karma import core
+    from karma import banner
+    
 except Exception as e:
     raise e
 
 
-usage = """Karma {}
+# set logger
+logger = logging.getLogger("Karma")
+logger.setLevel(logging.DEBUG)
+
+logger_ch = logging.StreamHandler()
+logger_ch.setLevel(logging.DEBUG)
+logger_ch.setFormatter(formatter.CustomFormatter())
+
+logger.addHandler(logger_ch)
+
+try:
+    from texttable import Texttable
+    from docopt import docopt
+
+except ModuleNotFoundError as e:
+    logger.error(f"{e}")
+    logger.warn(
+        f"please install the requirements: $ sudo -H pip3 insall -r requirements.txt"
+    )
+    sys.exit(1)
+
+
+usage = f"""Karma v{__version__}
 
 Usage:
     karma.py target <target> [-o FILENAME] [--proxy=<proxy>]
@@ -31,73 +56,53 @@ Options:
     --proxy=<proxy>     Set Tor proxy [default: localhost:9050].
     -h --help           Show this screen.
     --version           Show version.
-""".format(
-    __version__
-)
+"""
 
 
-def print_result_table(result, start_time):
+def print_result_table(results):
 
     table = Texttable()
     table.header(["Email", "Password"])
     table.set_cols_dtype(["t", "t"])
     table.set_deco(Texttable.BORDER | Texttable.HEADER | Texttable.VLINES)
 
-    for key in result.keys():
-        email = result[key]["email"]
-        passw = str(result[key]["passw"])
+    for key in results.keys():
+        email = str(results[key]["email"])
+        passw = str(results[key]["passw"])
         row = (email, passw)
         table.add_row(row)
 
     print(table.draw())
-    logger.info(
-        "{} results found in {:.2f}s".format(
-            len(result.keys()), time.time() - start_time
-        )
-    )
 
 
 def generate_json_file(result, filename):
 
     if not filename:
         filename = time.strftime("%d%m%y-%H%M%S")
+    
     output = json.dumps(result, indent=2)
-    f = open("%s.json" % filename, "w")
-    f.write(output)
-    f.close()
+    with open(f"{filename}.json", "w") as f:
+        f.write(output)
 
-    logger.info("the file {}.json was created".format(filename))
-
-
-def set_logger():
-
-    global logger
-    logger = logging.getLogger("Karma")
-    logger.setLevel(logging.DEBUG)
-    logger_ch = logging.StreamHandler()
-    logger_ch.setLevel(logging.DEBUG)
-    logger_ch.setFormatter(formatter.CustomFormatter())
-    logger.addHandler(logger_ch)
-
-
-def main():
-
-    # get program start time
-    start = time.time()
-
-    set_logger()
-    args = docopt(usage, version=__version__)
-    pwndb = core.pwndb(args)
-    banner.print_banner("karma", __version__, __author__)
-
-    logger.info("starting search")
-    result = pwndb.search_info()
-    print_result_table(result, start)
-
-    if args["--output"]:
-        filename = args["FILENAME"]
-        generate_json_file(result, filename)
+    logger.info(f"the file {filename}.json was created")
 
 
 if __name__ == "__main__":
-    main()
+
+    args = docopt(usage, version=__version__)
+    pwndb = core.pwndb(args)
+    banner.print_banner(__version__)
+
+    logger.info("starting search")
+    start_time = time.time()
+
+    results = pwndb.search_info()
+    print_result_table(results)
+    
+    number_results = len(results.keys())
+    end_time = time.time() - start_time
+    logger.info(f"{number_results} results found in {end_time:.2f}s")
+
+    if args["--output"]:
+        filename = args["FILENAME"]
+        generate_json_file(results, filename)

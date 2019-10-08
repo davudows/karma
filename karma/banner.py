@@ -1,32 +1,44 @@
 #!/usr/bin/env python3
 
-from string import ascii_letters, digits
-
 import random
 import time
 
-GREEN, RESET = "\033[92m", "\033[0m"
+from string import ascii_letters, digits
 
-char = lambda i: " ".join(random.sample(ascii_letters + digits, k=i)).upper()
-
-
-def shuffle(line, name_length):
-
-    for x in range(0, random.randint(1, 4)):
-        print("\t{}".format(char(name_length)), end="\r")
-        time.sleep(0.1)
-
-    print("\t" + line)
+# colors
+GREEN, RESET = "\033[32m", "\033[0m"
 
 
-def print_banner(name="Nameless", version="00.00.00", author="unknown"):
+def get_chars(i: int) -> str:
 
-    name_length = len(name) + 4  # name legnth + four chars
-    name = " ".join(name.upper())  # space between letters
-    name = "{} \033[1m{} \033[0m{}".format(char(2), name, char(2))
+    chars = random.sample(ascii_letters + digits, k=i)
+    return " ".join(chars).upper()
+
+
+def shuffle(line: str, name_length: int):
+
+    for _ in range(0, random.randint(4, 8)):
+        print(f"\t{get_chars(name_length)}", end="\r")
+        time.sleep(0.09)
+
+    print(f"\t{line}")
+
+
+def print_banner(version, name="Karma", author="decoxviii"):
+
+    # name legnth + four chars
+    name_length = len(name) + 4
+    # space between letters
+    name = " ".join(name.upper())
+    name = f"{get_chars(2)}{GREEN} {name} {RESET}{get_chars(2)}"
 
     print("\n")
-    lines = [char(name_length), name, char(name_length)]
-    [shuffle(line, name_length) for line in lines]
-    print("\n\t{}".format(author))
-    print("\t{}\n".format(version))
+
+    lines = [get_chars(name_length), name, get_chars(name_length)]
+    for line in lines:
+        shuffle(line, name_length)
+
+    print(f"""
+        {author}
+        {version}
+    """)
